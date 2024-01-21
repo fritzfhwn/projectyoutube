@@ -1,0 +1,33 @@
+{
+  "api": {
+    "search": "https://www.googleapis.com/youtube/v3/search",
+    "video": "https://www.googleapis.com/youtube/v3/videos",
+    "channel": "https://www.googleapis.com/youtube/v3/channels",
+    "category": "https://www.googleapis.com/youtube/v3/videoCategories"
+  },
+  "args": {
+    "search": {
+      "part": "snippet",
+      "q": "",
+      "type": "video",
+      "maxResults": 25,
+      "key": "AIzaSyB__6rvMS99gKSp5Tm_SQW32B_rFzHLoGY"
+    },
+    "video": {
+      "part": "snippet,contentDetails,statistics,liveStreamingDetails,localizations,player,recordingDetails,status,topicDetails",
+      "key": "AIzaSyB__6rvMS99gKSp5Tm_SQW32B_rFzHLoGY"
+    },
+    "channel": {
+      "part": "snippet,contentDetails,statistics,brandingSettings,contentOwnerDetails,localizations,status,topicDetails",
+      "key": "AIzaSyB__6rvMS99gKSp5Tm_SQW32B_rFzHLoGY"
+    },
+    "category": {
+      "part": "snippet",
+      "key": "AIzaSyB__6rvMS99gKSp5Tm_SQW32B_rFzHLoGY"
+    }
+  }
+}
+
+
+
+
