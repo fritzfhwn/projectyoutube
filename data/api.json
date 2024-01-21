@@ -11,19 +11,19 @@
       "q": "",
       "type": "video",
       "maxResults": 25,
-      "key": "AIzaSyB__6rvMS99gKSp5Tm_SQW32B_rFzHLoGY"
+      "key": "AIzaSyBVPQgk-mlDVX5kNDck5fvlgo54qvQt0oA"
     },
     "video": {
-      "part": "snippet,contentDetails,statistics,liveStreamingDetails,localizations,player,recordingDetails,status,topicDetails",
-      "key": "AIzaSyB__6rvMS99gKSp5Tm_SQW32B_rFzHLoGY"
+      "part": "snippet,contentDetails,statistics,liveStreamingDetails,player,recordingDetails,status,topicDetails",
+      "key": "AIzaSyBVPQgk-mlDVX5kNDck5fvlgo54qvQt0oA"
     },
     "channel": {
-      "part": "snippet,contentDetails,statistics,brandingSettings,contentOwnerDetails,localizations,status,topicDetails",
-      "key": "AIzaSyB__6rvMS99gKSp5Tm_SQW32B_rFzHLoGY"
+      "part": "snippet,contentDetails,statistics,brandingSettings,status,topicDetails",
+      "key": "AIzaSyBVPQgk-mlDVX5kNDck5fvlgo54qvQt0oA"
     },
     "category": {
       "part": "snippet",
-      "key": "AIzaSyB__6rvMS99gKSp5Tm_SQW32B_rFzHLoGY"
+      "key": "AIzaSyBVPQgk-mlDVX5kNDck5fvlgo54qvQt0oA"
     }
   }
 }

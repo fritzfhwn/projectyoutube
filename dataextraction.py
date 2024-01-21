@@ -4,7 +4,7 @@ from datetime import datetime
 import pandas as pd
 from api import YoutubeAPIHandler
 
-search_strings = pd.read_excel("./data/Suchbegriffe.xlsx")
+search_strings = pd.read_excel("./data/Suchbegriffe_random.xlsx")
 search_strings.columns = ["Category"]
 api_data = json.load(open("./data/api.json"))
 categories = json.load(open("./data/category_list.json"))
@@ -56,4 +56,4 @@ def get_video_list_by_search_filter():
     json.dump(data_list, open(f"list_test", "w"), indent=6)
 
 
-get_video_list_by_search_filter()
+
