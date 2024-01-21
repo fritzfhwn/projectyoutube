@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 import pandas as pd
 from api import YoutubeAPIHandler
+import pickle
 
 search_strings = pd.read_excel("./data/Suchbegriffe_random.xlsx")
 search_strings.columns = ["Category"]
