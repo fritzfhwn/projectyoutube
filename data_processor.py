@@ -16,6 +16,15 @@ class DataProcessor:
 
     @staticmethod
     def get_channel_details_by_video_list(video_list):
+        """
+        Retrieves channel details for a list of videos by making API requests to fetch channel information based on channelId found in each video's details.
+
+        :param video_list: A dictionary containing video items, each with a 'snippet' that includes the 'channelId'.
+        :return: None. The function modifies the input video_list in-place, adding 'channel_details' to each item if channel information is successfully retrieved.
+
+        This method iterates over the 'items' in the video_list, uses the 'channelId' to make API requests for channel details,
+        and appends the channel details to the corresponding video item if found.
+        """
         if "items" in video_list.keys():
             for item in video_list["items"]:
                 DataProcessor.api_data["args"]["channel"]["id"] = item["snippet"]["channelId"]
@@ -25,9 +34,15 @@ class DataProcessor:
 
     @staticmethod
     def get_video_statistics_by_video_list(video_list):
-        # function receives the prepared video list from search filter
-        # will add further video details and statistics to the list which are not to be found in
-        # the search queue
+        """
+        Enhances a list of videos with additional video details and statistics not available in the initial search query results.
+
+        :param video_list: A dictionary representing a list of videos.
+        :return: None. The function updates the input video_list in-place, appending detailed video statistics and information to each video item.
+
+        Iterates through the 'items' in video_list, making API requests for each video's detailed statistics and information using the video's ID.
+        Transforms category IDs into readable names using the predefined category list, updating each video's details accordingly.
+        """
         if "items" in video_list.keys():
             for item in video_list["items"]:
                 # fileDetails, processingDetails, suggestions - only for content owner
@@ -41,13 +56,27 @@ class DataProcessor:
 
     @staticmethod
     def get_category_list():
-        # only initially needed to create the json dump of all video categories
+        """
+        Fetches the list of all video categories available on YouTube and saves them as a JSON file.
+
+        :return: None. The function makes an API request to retrieve video categories and saves the result as 'video_categories.json'.
+
+        This method is primarily used for initial setup to create a JSON dump of all video categories, associating category IDs with their respective titles.
+        """
         response = YoutubeAPIHandler.make_api_request(DataProcessor.api_data["api"]["category"], DataProcessor.api_data["args"]["category"])["items"]
         category_list = [{"id": item["id"], "name": item["snippet"]["title"]} for item in response]
         DataHandler.save_data(category_list, "video_categories.json", "json")
 
     @staticmethod
     def get_video_list_by_search_filter():
+        """
+        Compiles a comprehensive list of videos based on specified search filters, enriching each video with detailed statistics and channel information.
+
+        :return: None. The function saves the compiled and enriched video list as a JSON file in the './data' directory.
+
+        For each search string from a predefined list, this method makes API requests to fetch videos, their statistics, and channel details.
+        Each search result is then enhanced with additional video and channel details before being saved collectively as 'full_video_list.json'.
+        """
         data_list = []
         for i in DataProcessor.search_strings.index:
             DataProcessor.api_data["args"]["search"]["q"] = DataProcessor.search_strings.loc[i, "Category"]
@@ -62,6 +91,15 @@ class DataProcessor:
 
     @staticmethod
     def create_dataframe(search_args_list):
+        """
+        Creates a DataFrame from a list of search argument entries, each containing video and channel details, and saves it as a pickle file.
+
+        :param search_args_list: A list of dictionaries, each representing search results with video items and their associated details.
+        :return: None. Constructs a DataFrame with detailed video and channel statistics and saves it as './data/df_video_stats.pkl'.
+
+        This method aggregates video and channel information from the input list, creating a comprehensive DataFrame that includes various metrics
+        and details for each video, such as view counts, like counts, and channel subscriber counts. The resulting DataFrame is saved for further analysis.
+        """
         df = {"video_id": [], "published_at": [], "channel_id": [], "length_title": [], "length_description": [], "liveBroadcastContent": [], "length_tags": [], "category": [], "duration": [], "dimension": [], "definition": [], "caption": [], "licensedContent": [], "privacyStatus": [], "view_count": [], "like_count": [], "favorite_count": [], "comment_count": [], "channel_view_count": [], "channel_sub_count": [], "channel_video_count": [], "channel_country": []}
 
         for search_entry in search_args_list:
@@ -105,6 +143,15 @@ class DataProcessor:
 
     @staticmethod
     def process_dataframe(dataframe):
+        """
+        Processes a DataFrame by converting date strings to datetime objects and adding derived columns for analysis.
+
+        :param dataframe: A pandas DataFrame containing video and channel metrics, including publication dates and durations.
+        :return: A pandas DataFrame with additional columns for days online, publication month, publication year, and video duration in seconds.
+
+        Enhances the input DataFrame by converting publication dates to datetime, calculating the number of days each video has been online,
+        extracting month and year of publication, and converting video duration into seconds. This processed DataFrame is returned for further analysis.
+        """
         df = dataframe
 
         df['published_at'] = pd.to_datetime(df['published_at'], utc=True)
@@ -118,6 +165,15 @@ class DataProcessor:
 
     @staticmethod
     def generate_dummies_from_dataframe(dataframe):
+        """
+        Converts categorical variables within a DataFrame into dummy/indicator variables and performs cleaning to prepare for regression.
+
+        :param dataframe: A DataFrame with video and channel metrics, including categorical fields like category and country.
+        :return: A pandas DataFrame with dummy variables for categories, country, caption availability, licensed content, and privacy status.
+
+        This method generates dummy variables for several categorical columns, drops unnecessary or redundant columns, and ensures all boolean columns are converted to integers.
+        The cleaned and transformed DataFrame is returned, ready for regression analysis.
+        """
         df = dataframe
 
         df = pd.get_dummies(df, columns=['category'], prefix="cat")
